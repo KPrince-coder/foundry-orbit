@@ -1,35 +1,41 @@
 # Foundry Orbit
 
 ## Overview
-A multi-agent startup foundry that helps solo founders plan, design, and build AI-native startups from idea to MVP and beyond. The orchestrator sits at the center, with 7 specialized agents orbiting around the founder's work — each engaging when their domain expertise is needed.
+A multi-agent startup foundry that helps solo founders plan, design, and build AI-native startups from idea to MVP and beyond. The orchestrator coordinates 7 specialized agent roles through on-demand skills, persists founder state via tRPC routers backed by cloud storage, and renders rich interactive UI.
 
 ## Architecture
 
-### Agent Model
-Claude Sonnet 4.6 (via Bedrock) — advanced reasoning for complex multi-step workflows.
+### Model
+Claude Sonnet 4.6 (via Bedrock).
 
 ### Theme
-Dark professional theme: deep navy background (`#0c1222`), electric blue primary, amber accents. Subtle grid overlay in ChatView. Plus Jakarta Sans typography.
+Dark professional: deep navy (`#0c1222`), electric blue primary, amber accents, subtle grid overlay.
 
-### Skills (7 orbiting agents, on-demand loading)
-All stored in `.agent/skills/` with `autoload: false`:
-- **product-strategy** — Problem clarity, competitor research, PRD, feature prioritization
-- **system-architecture** — System design, data flows, storage choices, data engineering
-- **ai-ml-evaluation** — Model selection, evaluation, prompting, feedback loops, MLOps
-- **engineering-delivery** — Sprint planning, backlog, repo structure, CI/CD, testing
-- **learning-coaching** — Knowledge gap detection, mentoring, targeted learning paths
-- **dev-workflow** — Code review, PR management, Notion docs, task tracking, quality gates
-- **founder-intake** — Intake questionnaire, stage classification, initial roadmap generation
+### Data Persistence (Phase 1)
+Three tRPC routers backed by AgentPlace cloud storage (private per-user):
+- **founder.router** — Founder profile (idea, stage, domain, goal, skills, constraints, repo/notion URLs)
+- **roadmap.router** — Stage classification + milestones with IDs and target weeks
+- **tasks.router** — Sprint tasks with status (todo/in_progress/done/blocked) and phase (now/next)
 
-### UI Components (4 custom + 3 default)
-- **FounderIntake** — 5-step wizard (Idea → User/Problem → Stage → Skills → Constraints), sends structured JSON on submit
-- **RoadmapView** — Stage-based visual timeline (Concept → Launch Prep) with milestone tracking
-- **ActionPlan** — 3-7 prioritized actions with owners (agent badges), difficulty (S/M/L), risk flags
-- **TaskBoard** — Two-column sprint board (Now / Next) with task cards
-- **Image, Table, Video** — Default utility components
+All mutations use `loggedProcedure` for auto-logging and auto-invalidation. Memory Bank (`persistToMemoryBank`) provides quick LLM context for returning sessions.
 
-### Key Flows
-1. **First open** → FounderIntake form → JSON submission → stage classification → RoadmapView + ActionPlan
-2. **Ongoing** → Agent loads relevant skills per request → multi-agent handoffs → ActionPlan with each response
-3. **Sprint planning** → TaskBoard with Now/Next breakdown
-4. **Research** → Web search for market/competitor/technology data
+### Skills (7 agents, on-demand)
+product-strategy, system-architecture, ai-ml-evaluation, engineering-delivery, learning-coaching, dev-workflow, founder-intake
+
+### UI Components
+- **FounderIntake** — 6-step wizard (Idea → User/Problem → Domain & Goal → Stage → Skills → Constraints + repo/notion URLs). Saves profile via tRPC, then sends to orchestrator
+- **RoadmapView** — Full 6-stage timeline with milestones for ALL stages, target weeks, interactive status toggle via tRPC
+- **ActionPlan** — 3-7 prioritized actions with owner badges, difficulty, risk flags
+- **TaskBoard** — 3-column sprint board (Now/Next/Done) with status icons and click-to-advance
+- **Table, Image, Video** — Default utilities
+
+### Session Continuity
+- New founder: FounderIntake → stage classification → RoadmapView + ActionPlan → persistToMemoryBank
+- Returning founder: read memory → welcome back → show roadmap → "What did you work on?"
+
+### Docs
+Comprehensive documentation in `docs/`:
+- `architecture.md` — System architecture with Mermaid diagrams
+- `data-persistence.md` — Storage layers, data models, read/write/invalidation flows
+- `agent-workflow.md` — Multi-agent orchestration, stage lifecycle, handoff patterns
+- `phase1-build-log.md` — Detailed build log of Phase 1 changes
