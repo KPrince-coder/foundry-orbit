@@ -1,0 +1,67 @@
+/* Foundry Orbit — Dark Theme */
+/* Professional startup foundry aesthetic: deep navy, electric blue, amber accents */
+
+:root.dark {
+  /* Base — deep navy-slate */
+  --background: 222 47% 5%;
+  --foreground: 210 40% 96%;
+
+  /* Primary — electric blue */
+  --primary: 217 91% 60%;
+  --primary-foreground: 222 47% 5%;
+
+  /* Secondary — muted slate */
+  --secondary: 215 25% 20%;
+  --secondary-foreground: 210 40% 92%;
+
+  /* Muted — subtle surfaces */
+  --muted: 217 33% 12%;
+  --muted-foreground: 215 20% 55%;
+
+  /* Accent — warm amber */
+  --accent: 38 92% 50%;
+  --accent-hover: 38 92% 45%;
+  --accent-foreground: 222 47% 5%;
+
+  /* Status */
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 98%;
+  --success: 160 84% 39%;
+  --success-foreground: 0 0% 98%;
+
+  /* Card — elevated navy surface */
+  --card: 222 40% 8%;
+  --card-foreground: 210 40% 96%;
+
+  /* Popover */
+  --popover: 222 40% 8%;
+  --popover-foreground: 210 40% 96%;
+
+  /* Form */
+  --border: 217 30% 18%;
+  --input: 217 30% 18%;
+  --ring: 217 91% 60%;
+
+  /* Links */
+  --link: 217 91% 65%;
+  --link-hover: 217 91% 55%;
+  --link-visited: 260 60% 65%;
+
+  /* Glass */
+  --glass: 222 47% 5% / 0.4;
+
+  /* Charts */
+  --chart-1: 217 91% 60%;
+  --chart-2: 38 92% 50%;
+  --chart-3: 160 84% 39%;
+  --chart-4: 260 60% 65%;
+  --chart-5: 340 75% 55%;
+
+  --table-border-color: rgba(99, 153, 255, 0.1);
+  --user-message-bg-color: hsl(217 33% 14%);
+
+  /* Shimmer */
+  --shimmer-base: 217 91% 60%;
+  --shimmer-highlight: 217 91% 80%;
+  --shimmer-highlight-opacity: 0.5;
+}
